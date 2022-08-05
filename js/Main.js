@@ -301,3 +301,8 @@ document.addEventListener("keydown", (e) => {
     quickMessagesModalInstance.toggle();
   }
 });
+
+modalRef.addEventListener("hidden.bs.modal", () => {
+  formRef.reset();
+  inputIdField.value = "";
+});
