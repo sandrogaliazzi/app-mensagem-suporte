@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atendimento Suporte</title>
+  </head>
+  <body>
+    <!-- nav-bar -->
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="#problemas">Problemas</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="#sem-conexão"
+                  >Sem conexão</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#bloqueio">Bloqueio</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Mais
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li>
+                    <a class="dropdown-item" href="#aplicativos">Aplicativos</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#pós-suporte">Pós suporte</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#upgrade">Upgrade</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#bloqueio">Bloqueio</a>
+                  </li>
+                  <li><a class="dropdown-item" href="#outros">Outros</a></li>
+                </ul>
+              </li>
+            </ul>
+            <button
+              class="btn btn-outline-primary mx-3"
+              data-bs-toggle="modal"
+              data-bs-target="#quickMessages"
+            >
+              <i class="bi bi-lightning-charge-fill"></i>
+              Mensagens Rápidas
+            </button>
+            <button
+              class="btn btn-outline-success"
+              data-bs-toggle="modal"
+              data-bs-target="#searchModal"
+            >
+              <i class="bi bi-search"></i>
+              Pesquisar
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!-- seções com os cards -->
+    <main class="container pt-5" id="messages-container"></main>
+    <!-- modal com formulário -->
+    <div
+      class="modal fade"
+      id="addMessageModal"
+      tabindex="-1"
+      aria-labelledby="addMessageModal"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addMessageModal">Adicionar Mensagem</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="modalForm">
+              <div class="row">
+                <div class="col-8">
+                  <div class="form-group">
+                    <label for="messageTitle">Titulo da mensagem</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="messageTitle"
+                      name="messageTitle"
+                      placeholder="Titulo"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="category">Categoria</label>
+                    <select class="form-control" id="category" name="category">
+                      <option value="pós suporte-4">Pós suporte</option>
+                      <option value="problemas-2">Problemas</option>
+                      <option value="sem conexão-1">Sem conexão</option>
+                      <option value="aplicativos-5">Aplicativos</option>
+                      <option value="bloqueio-3">Bloqueio</option>
+                      <option value="upgrade-6">Upgrade</option>
+                      <option value="outros-7">Outros</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col">
+                  <label for="messageContent">Mensagem</label>
+                  <textarea
+                    class="form-control mb-3"
+                    id="messageContent"
+                    name="messageContent"
+                    rows="4"
+                    required
+                  ></textarea>
+                </div>
+              </div>
+              <input type="hidden" id="messageId" name="messageId" value="" />
+              <div class="d-flex justify-content-end">
+                <button type="submit" id="submitBtn" class="btn btn-success">
+                  Salvar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- modal de pesquisa de mensagens -->
+    <div
+      class="modal fade"
+      id="searchModal"
+      tabindex="-1"
+      aria-labelledby="searchModal"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="card-title">Pesquisar Mensagens</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group">
+              <span class="input-group-text" id="basic-addon1">
+                <i class="bi bi-search"></i>
+              </span>
+              <input
+                type="search"
+                class="form-control"
+                id="searchBar"
+                placeholder="Pesquise o título da mensagem aqui"
+                aria-label="Input group example"
+                aria-describedby="basic-addon1"
+                autofocus
+              />
+            </div>
+            <div class="mt-3">
+              <ul class="list-group list-group-flush" id="searchList"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- modal mensagens rápidas -->
+    <div
+      class="modal fade"
+      id="quickMessages"
+      tabindex="-1"
+      aria-labelledby="quickMessages"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="card-title">Mensagens rápidas</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div>
+              <ul
+                class="list-group list-group-flush"
+                id="quickMessagesList"
+              ></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- botão adicionar mensagem e pesquisar mensagem -->
+    <button
+      class="btn-add-message"
+      data-bs-toggle="modal"
+      data-bs-target="#addMessageModal"
+    >
+      <i class="bi bi-plus"></i>
+    </button>
+  </body>
+</html>
