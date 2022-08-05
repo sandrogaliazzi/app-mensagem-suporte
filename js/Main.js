@@ -225,11 +225,9 @@ const setEventHandlers = () => {
 
 //copia o texto da mensagem para area de transferência recebendo o id do card
 const copyTextToClipBoard = (id) => {
-  let textContent = document.querySelector(`#text-id-${id}`).textContent;
+  let textContent = document.querySelector(`#text-id-${id}`).innerText;
 
-  let textContentFormatted = textContent.replace(/\s{2,}/g, "").trim();
-
-  navigator.clipboard.writeText(textContentFormatted);
+  navigator.clipboard.writeText(textContent);
 };
 
 //alterna a classe do botão de copiar
