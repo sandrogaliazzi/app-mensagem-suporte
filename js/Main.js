@@ -61,6 +61,17 @@ const renderQuickMessages = () => {
   });
 };
 
+const sliceTxt = (txt, id) => {
+  const txtToArray = txt.split(" ");
+
+  const textDiplay = txtToArray.slice(0, 60).join(" ");
+
+  const textHide = txtToArray.slice(60).join(" ");
+
+  return `${textDiplay}<span id="txtHide-${id}" class="d-none txt-hide">${textHide}</span>
+  <button type="button" class="btn btn-link" data-id="${id}" data-action-type="readMore">...Ler mais</button>`;
+};
+
 //função que rendereiza os cards com as mensagens
 const renderCards = (array) => {
   let cards = "";
@@ -68,11 +79,15 @@ const renderCards = (array) => {
   for (let i = 0; i < array.length; i++) {
     const { messageTitle, messageContent, id } = array[i];
 
-    cards += `<div class="card my-card" data-card-title="${messageTitle}">
+    let textSize = messageContent.split(" ").length;
+
+    cards += `<div class="card my-card">
     <div class="card-body d-flex flex-column justify-content-between">
       <div>
         <h5 class="card-title d-block">${messageTitle}</h5>
-        <p class="card-text" style="white-space: pre-line;" id="text-id-${id}">${messageContent}</p>
+        <p class="card-text overflow-auto" style="white-space: pre-line;">${
+          textSize > 60 ? sliceTxt(messageContent, id) : messageContent
+        }</p>
       </div>
       <button data-action-type="copy" data-id="${id}" 
         class="btn btn-primary btn-copy align-self-start mt-3">
@@ -153,13 +168,69 @@ const renderSectionsByCategory = async () => {
   });
 };
 
+const setCopyEventOnBtn = (btn, id) => {
+  btn.addEventListener("click", () => {
+    copyTextToClipBoard(id);
+
+    toggleBtnClass(btn);
+
+    setTimeout(() => {
+      toggleBtnClass(btn);
+    }, 2000);
+  });
+};
+
+const setDeleteEventOnBtn = (btn, id) => {
+  btn.addEventListener("click", async () => {
+    if (confirm("Deseja excluir permanentemente essa mensagem?")) {
+      await deleteMessage(id);
+
+      alert("mensagem excluida!");
+
+      renderSectionsByCategory();
+    }
+  });
+};
+
+const setUpdateEventOnBtn = (btn, id) => {
+  btn.addEventListener("click", async () => {
+    const { messageTitle, messageContent, category } = await getMessage(id);
+
+    inputIdField.value = id;
+
+    inputTitleField.value = messageTitle;
+
+    inputMessageField.value = messageContent;
+
+    for (const item of categoryListField) {
+      let categoryName = item.value.split("-")[0];
+      categoryName == category.name
+        ? item.setAttribute("selected", "selected")
+        : item.removeAttribute("selected");
+    }
+  });
+};
+
+const setReadMoreOnBtn = (btn, id) => {
+  btn.addEventListener("click", () => {
+    const span = document.querySelector(`#txtHide-${id}`);
+
+    span.classList.toggle("d-none");
+
+    btn.innerText = span.classList.contains("d-none")
+      ? "...Ler mais"
+      : "Ler Menos";
+  });
+};
+
 // adiciona o eventos e funções aos botões de ações dentro dos cards
 const setEventHandlers = () => {
   const buttons = Array.from(document.getElementsByTagName("button")).filter(
     (button) =>
       button.classList.contains("btn-copy") ||
       button.classList.contains("btn-delete") ||
-      button.classList.contains("btn-update")
+      button.classList.contains("btn-update") ||
+      button.classList.contains("btn-link")
   );
 
   for (let i = 0; i < buttons.length; i++) {
@@ -170,64 +241,29 @@ const setEventHandlers = () => {
 
     switch (action) {
       case "copy":
-        button.addEventListener("click", () => {
-          copyTextToClipBoard(id);
-
-          toggleBtnClass(button);
-
-          setTimeout(() => {
-            toggleBtnClass(button);
-          }, 2000);
-        });
-
+        setCopyEventOnBtn(button, id);
         break;
 
       case "delete":
-        button.addEventListener("click", async () => {
-          if (confirm("Deseja excluir permanentemente essa mensagem?")) {
-            await deleteMessage(id);
-
-            alert("mensagem excluida!");
-
-            renderSectionsByCategory();
-          }
-        });
-
+        setDeleteEventOnBtn(button, id);
         break;
 
       case "update":
-        button.addEventListener("click", async () => {
-          const { messageTitle, messageContent, category } = await getMessage(
-            id
-          );
-
-          inputIdField.value = id;
-
-          inputTitleField.value = messageTitle;
-
-          inputMessageField.value = messageContent;
-
-          for (const item of categoryListField) {
-            let categoryName = item.value.split("-")[0];
-            categoryName == category.name
-              ? item.setAttribute("selected", "selected")
-              : item.removeAttribute("selected");
-          }
-        });
-
+        setUpdateEventOnBtn(button, id);
         break;
 
-      default:
+      case "readMore":
+        setReadMoreOnBtn(button, id);
         break;
     }
   }
 };
 
-//copia o texto da mensagem para area de transferência recebendo o id do card
+//copia o texto da mensagem para area de transferência recebendo o id da mensagem
 const copyTextToClipBoard = (id) => {
-  let textContent = document.querySelector(`#text-id-${id}`).innerText;
+  const message = storeMessages.find((message) => message.id == id);
 
-  navigator.clipboard.writeText(textContent);
+  navigator.clipboard.writeText(message.messageContent);
 };
 
 //alterna a classe do botão de copiar
@@ -300,6 +336,7 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+// reseta o formulário quando o modal é fechado
 modalRef.addEventListener("hidden.bs.modal", () => {
   formRef.reset();
   inputIdField.value = "";

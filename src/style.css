@@ -17,6 +17,13 @@
   box-shadow: 3px 3px 4px #3333;
 }
 
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 .section-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
