@@ -24,6 +24,48 @@
   box-shadow: none;
 }
 
+#messages-container > section {
+  scroll-margin-top: 150px;
+}
+
+.link-unstyled,
+.link-unstyled:link,
+.link-unstyled:hover {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.wrapper {
+  position: sticky;
+  top: 6%;
+  right: 0;
+}
+
+.section-list a {
+  text-decoration: none;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.717);
+  transition: 0.5s;
+}
+
+.section-list {
+  padding-left: 0px;
+}
+
+.section-list li {
+  padding-left: 0.5rem;
+  margin-top: 1rem;
+  display: inline;
+}
+
+.section-list .item-active {
+  border-left: 3px solid dodgerblue;
+}
+
+.section-list a:hover {
+  color: dodgerblue;
+}
+
 .section-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));

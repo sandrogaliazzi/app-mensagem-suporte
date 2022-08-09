@@ -10,7 +10,7 @@
     <!-- nav-bar -->
     <header>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
+        <div class="container-fluid px-4">
           <a class="navbar-brand" href="#problemas">Problemas</a>
           <button
             class="navbar-toggler"
@@ -85,7 +85,23 @@
       </nav>
     </header>
     <!-- seções com os cards -->
-    <main class="container pt-5" id="messages-container"></main>
+    <main class="container-fluid px-0 pt-4 d-flex">
+      <div id="messages-container" class="p-3"></div>
+      <div id="side-content" class="w-25 bg-dark d-md-none d-lg-block">
+        <div class="wrapper d-flex flex-column align-items-center">
+          <h3 class="text-bg-dark mt-4">Seções</h3>
+          <ul class="section-list d-flex flex-column align-items-start">
+            <li class="item-active"><a href="#sem-conexão">Sem conexão</a></li>
+            <li><a href="#problemas">Problemas</a></li>
+            <li><a href="#bloqueio">bloqueio</a></li>
+            <li><a href="#pós-suporte">Pós suporte</a></li>
+            <li><a href="#aplicativos">Aplicativos</a></li>
+            <li><a href="#upgrade">Upgrade</a></li>
+            <li><a href="#outros">Outros</a></li>
+          </ul>
+        </div>
+      </div>
+    </main>
     <!-- modal com formulário -->
     <div
       class="modal fade"
@@ -94,7 +110,7 @@
       aria-labelledby="addMessageModal"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="addMessageModal">Adicionar Mensagem</h5>

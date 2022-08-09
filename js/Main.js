@@ -7,6 +7,8 @@ import {
   getAllMessages,
 } from "./Model";
 
+import { observeElem } from "./Observer";
+
 import { Modal } from "bootstrap";
 
 // container onde serão injetadas as mensagens
@@ -135,6 +137,8 @@ const renderMessages = (array) => {
 
   setEventHandlers();
   renderQuickMessages();
+  const targets = document.querySelectorAll("#messages-container > section");
+  targets.forEach((target) => observeElem(target));
 };
 
 // organiza as seções por categoria e chama a função renderMessages
