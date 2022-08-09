@@ -86,8 +86,17 @@
     </header>
     <!-- seções com os cards -->
     <main class="container-fluid px-0 pt-4 d-flex">
-      <div id="messages-container" class="p-3"></div>
-      <div id="side-content" class="w-25 bg-dark d-md-none d-lg-block">
+      <div id="messages-container" class="p-3 flex-fill align-self-center">
+        <div class="text-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+      <div
+        id="side-content"
+        class="w-25 min-vh-100 bg-dark d-md-none d-lg-block"
+      >
         <div class="wrapper d-flex flex-column align-items-center">
           <h3 class="text-bg-dark mt-4">Seções</h3>
           <ul class="section-list d-flex flex-column align-items-start">
